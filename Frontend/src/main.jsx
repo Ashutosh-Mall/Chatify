@@ -6,15 +6,18 @@ import App from "./App.jsx";
 import {AuthProvider} from "./context/AuthContext.jsx";
 import {ChatProvider} from "./context/ChatContext.jsx";
 import {BrowserRouter} from "react-router-dom";
+import {SocketProvider} from "./context/SocketContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
-      <ChatProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ChatProvider>
+      <SocketProvider>
+        <ChatProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ChatProvider>
+      </SocketProvider>
     </AuthProvider>
   </StrictMode>,
 );

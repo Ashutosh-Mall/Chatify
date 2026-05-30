@@ -15,8 +15,6 @@ export const AuthProvider = ({children}) => {
   const [authUser, setAuthUser] = useState(null);
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [onlineUsers, setOnlineUsers] = useState([]);
-  const [socket, setSocket] = useState(null);
   const [message, setMessage] = useState("");
 
   const getUser = async () => {
@@ -111,22 +109,6 @@ export const AuthProvider = ({children}) => {
   };
 
   useEffect(() => {
-    if (authUser) {
-      const newSocket = io(backendURL, {
-        withCredentials: true,
-      });
-
-      setSocket(newSocket);
-
-      newSocket.on("getOnlineUsers", (users) => {
-        setOnlineUsers(users);
-      });
-
-      return () => newSocket.close();
-    }
-  }, [authUser]);
-
-  useEffect(() => {
     getUser();
   }, []);
 
@@ -144,12 +126,6 @@ export const AuthProvider = ({children}) => {
 
         message,
         setMessage,
-
-        onlineUsers,
-        setOnlineUsers,
-
-        socket,
-        setSocket,
 
         getUser,
         signUp,

@@ -1,24 +1,24 @@
 import React from "react";
 import { useChat } from "../context/ChatContext";
 import { useAuth } from "../context/AuthContext";
+import { useSocket } from "../context/SocketContext";
 import { FaUserCircle } from "react-icons/fa";
 
 const Left = () => {
   const { allUsers, setSelectedUser, selectedUser } = useChat();
-  const { onlineUsers } = useAuth();
+  const { authUser } = useAuth();
+  const {onlineUsers} = useSocket();
 
   return (
     <div className="w-1/3 bg-white border-r overflow-y-auto">
-      
-      {/* Header */}
       <div className="p-4 border-b font-bold text-lg">
         Chats
       </div>
-
-      {/* Users */}
+      <div className="p-4 border-b font-bold text-lg">
+        {authUser?.userName}
+      </div>
       {allUsers.map((user) => {
         const isOnline = onlineUsers.includes(user._id);
-
         return (
           <div
             key={user._id}

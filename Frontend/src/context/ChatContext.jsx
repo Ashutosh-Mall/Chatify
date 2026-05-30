@@ -2,6 +2,7 @@ import {createContext, useContext, useState, useEffect} from "react";
 
 import axios from "axios";
 import {useAuth} from "./AuthContext";
+import {useSocket} from "./SocketContext";
 
 const backendURL = import.meta.env.VITE_API_URL;
 
@@ -12,7 +13,8 @@ export const useChat = () => {
 };
 
 export const ChatProvider = ({children}) => {
-  const {authUser, socket} = useAuth();
+  const {authUser} = useAuth();
+  const {socket} = useSocket();
 
   const [allUsers, setAllUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
