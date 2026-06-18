@@ -1,5 +1,5 @@
 import {useState, useContext, useEffect, createContext} from "react";
-
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {io} from "socket.io-client";
 
@@ -12,6 +12,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({children}) => {
+  const navigate = useNavigate();
   const [authUser, setAuthUser] = useState(null);
   const [isLogin, setIsLogin] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -30,6 +31,7 @@ export const AuthProvider = ({children}) => {
       console.log(response.data.user._id);
 
       setMessage(response.data.message);
+      navigate("/chat")
     } catch (error) {
       setAuthUser(null);
       setIsLogin(false);
@@ -44,7 +46,8 @@ export const AuthProvider = ({children}) => {
     try {
       setLoading(true);
       setMessage("");
-
+      console.log(backendURL)
+      console.log(userData)
       const response = await axios.post(
         `${backendURL}/api/auth/register`,
         userData,
@@ -52,11 +55,12 @@ export const AuthProvider = ({children}) => {
           withCredentials: true,
         },
       );
-
+      console.log(response.data)
       setAuthUser(response.data.user);
       setIsLogin(true);
       console.log(response.data.user._id);
       setMessage(response.data.message);
+      navigate("/chat")
     } catch (error) {
       setMessage(error.response?.data?.message || "Something went wrong");
     } finally {
@@ -80,6 +84,7 @@ export const AuthProvider = ({children}) => {
       setAuthUser(response.data.user);
       setIsLogin(true);
       setMessage(response.data.message);
+      navigate("/chat")
     } catch (error) {
       setMessage(error.response?.data?.message || "Something went wrong");
     } finally {
