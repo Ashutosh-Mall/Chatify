@@ -23,7 +23,7 @@ app.use("/api/chat", chatRouter);
 
 const port = process.env.PORT || 5000;
 
-server.listen(port,()=>{
+server.listen(port, "0.0.0.0", () => {
     connectDB();
     console.log("Server running on port: " + port);
-})
+});
